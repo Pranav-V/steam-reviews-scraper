@@ -1,9 +1,9 @@
-import urllib.request, json 
+import urllib.request
 from bs4 import BeautifulSoup
 import csv
 
-# starting cursor location
-# if there are s
+# starting cursor location (find this by inspect elementing the review page and 
+# retrieving the value stored in the hidden input tag - userreviewscursor )
 cursor = "AoJwrdOD5IADftLMuAM"
 
 # data header
@@ -12,9 +12,15 @@ f = open('all_reviews.csv', 'w', encoding="utf-8", newline='')
 writer = csv.writer(f)
 writer.writerow(header)
 
+# change the page range depending on the number of reviews you want to scrape
+# every page contains 10 reviews
+# IMPORTANT: if there are encoding snags or timeouts, restart the scrape with a new file and 
+# change the cursor (above) to the next cursor location and the page (starting i) to the next indice
 for i in range(2,100000):
-    #print("Next Cursor:", cursor)
-    with urllib.request.urlopen("https://steamcommunity.com/app/570/homecontent/?userreviewscursor=" + cursor + "%3D&userreviewsoffset=" + str((10 * i) - 10) + "&p=" + str(i) + "&workshopitemspage=" + str(i) + "&readytouseitemspage=" + str(i) + "&mtxitemspage=" + str(i) + "&itemspage=" + str(i) + "&screenshotspage=" + str(i) + "&videospage=" + str(i) + "&artpage=" + str(i) + "&allguidepage=" + str(i) + "&webguidepage=" + str(i) + "&integratedguidepage=" + str(i) + "&discussionspage=" + str(i) + "&numperpage=10&browsefilter=mostrecent&browsefilter=mostrecent&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&filterLanguage=schinese&searchText=&maxInappropriateScore=50&forceanon=1") as url:
+    # change the following parameters depending on the game and language
+    language = "default" #english
+    appID = "570"
+    with urllib.request.urlopen("https://steamcommunity.com/app/" + appID + "/homecontent/?userreviewscursor=" + cursor + "%3D&userreviewsoffset=" + str((10 * i) - 10) + "&p=" + str(i) + "&workshopitemspage=" + str(i) + "&readytouseitemspage=" + str(i) + "&mtxitemspage=" + str(i) + "&itemspage=" + str(i) + "&screenshotspage=" + str(i) + "&videospage=" + str(i) + "&artpage=" + str(i) + "&allguidepage=" + str(i) + "&webguidepage=" + str(i) + "&integratedguidepage=" + str(i) + "&discussionspage=" + str(i) + "&numperpage=10&browsefilter=mostrecent&browsefilter=mostrecent&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&filterLanguage=schinese&searchText=&maxInappropriateScore=50&forceanon=1") as url:
         data = url.read().decode()
         parsed_html = BeautifulSoup(data)
         cursor = parsed_html.body.find('input', attrs={'name':'userreviewscursor'})
