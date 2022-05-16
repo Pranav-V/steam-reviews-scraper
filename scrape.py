@@ -20,7 +20,7 @@ for i in range(2,100000):
     # change the following parameters depending on the game and language
     language = "default" #english
     appID = "570"
-    with urllib.request.urlopen("https://steamcommunity.com/app/" + appID + "/homecontent/?userreviewscursor=" + cursor + "%3D&userreviewsoffset=" + str((10 * i) - 10) + "&p=" + str(i) + "&workshopitemspage=" + str(i) + "&readytouseitemspage=" + str(i) + "&mtxitemspage=" + str(i) + "&itemspage=" + str(i) + "&screenshotspage=" + str(i) + "&videospage=" + str(i) + "&artpage=" + str(i) + "&allguidepage=" + str(i) + "&webguidepage=" + str(i) + "&integratedguidepage=" + str(i) + "&discussionspage=" + str(i) + "&numperpage=10&browsefilter=mostrecent&browsefilter=mostrecent&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&filterLanguage=schinese&searchText=&maxInappropriateScore=50&forceanon=1") as url:
+    with urllib.request.urlopen("https://steamcommunity.com/app/" + appID + "/homecontent/?userreviewscursor=" + cursor + "%3D&userreviewsoffset=" + str((10 * i) - 10) + "&p=" + str(i) + "&workshopitemspage=" + str(i) + "&readytouseitemspage=" + str(i) + "&mtxitemspage=" + str(i) + "&itemspage=" + str(i) + "&screenshotspage=" + str(i) + "&videospage=" + str(i) + "&artpage=" + str(i) + "&allguidepage=" + str(i) + "&webguidepage=" + str(i) + "&integratedguidepage=" + str(i) + "&discussionspage=" + str(i) + "&numperpage=10&browsefilter=mostrecent&browsefilter=mostrecent&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&filterLanguage=" + language + "&searchText=&maxInappropriateScore=50&forceanon=1") as url:
         data = url.read().decode()
         parsed_html = BeautifulSoup(data)
         cursor = parsed_html.body.find('input', attrs={'name':'userreviewscursor'})
