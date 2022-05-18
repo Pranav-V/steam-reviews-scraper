@@ -4,8 +4,11 @@ import csv
 
 # starting cursor location (find this by inspect elementing the review page and 
 # retrieving the value stored in the hidden input tag - userreviewscursor )
-cursor = "AoJwrdOD5IADftLMuAM"
+cursor = "CHANGE_ME"
 
+# catch edge-case
+if '+' in cursor:
+    cursor = cursor.replace('+', '%2B')
 # data header
 header = ["Profile Name", "Date", "Recommendation", "Review", "Hours on Record", "Found Helpful", "Profile Link"]
 f = open('all_reviews.csv', 'w', encoding="utf-8", newline='')
@@ -19,7 +22,7 @@ writer.writerow(header)
 for i in range(2,100000):
     # change the following parameters depending on the game and language
     language = "default" #english
-    appID = "570"
+    appID = "570" #doda2
     with urllib.request.urlopen("https://steamcommunity.com/app/" + appID + "/homecontent/?userreviewscursor=" + cursor + "%3D&userreviewsoffset=" + str((10 * i) - 10) + "&p=" + str(i) + "&workshopitemspage=" + str(i) + "&readytouseitemspage=" + str(i) + "&mtxitemspage=" + str(i) + "&itemspage=" + str(i) + "&screenshotspage=" + str(i) + "&videospage=" + str(i) + "&artpage=" + str(i) + "&allguidepage=" + str(i) + "&webguidepage=" + str(i) + "&integratedguidepage=" + str(i) + "&discussionspage=" + str(i) + "&numperpage=10&browsefilter=mostrecent&browsefilter=mostrecent&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&filterLanguage=" + language + "&searchText=&maxInappropriateScore=50&forceanon=1") as url:
         data = url.read().decode()
         parsed_html = BeautifulSoup(data)
